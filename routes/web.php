@@ -28,3 +28,5 @@ Route::get('/index','AdminController@index');
 Route::any('delete/{id}','AdminController@delete');
 Route::get('edit/{id}','AdminController@edit');
 Route::post('/admin/update/{id}','AdminController@update');
+Route::get('/login','AdminController@login');
+Route::post('/logindo','AdminController@logindo');

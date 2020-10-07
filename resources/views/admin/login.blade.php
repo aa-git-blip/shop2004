@@ -6,16 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-@if ($errors->any())
-<div class="alert alert-danger">
-		<ul>
-				@foreach ($errors->all() as $error)
-				<li>{{ $error }}</li>
-				@endforeach
-		</ul>
-</div>
-@endif
-    <form action="{{url('admin/insert')}}" method="post">
+    {{session('msg')}}
+    <form action="{{url('/logindo')}}" method="post">
     @csrf
         <table>
             <tr>
@@ -25,19 +17,13 @@
                 </td>
             </tr>
             <tr>
-                <td>邮箱名</td>
-                <td>
-                    <input type="text" name="email" id="">
-                </td>
-            </tr>
-            <tr>
                 <td>密码</td>
                 <td>
                     <input type="password" name="password" id="">
                 </td>
             </tr>
             <tr>
-                <td><input type="submit" value="注册"></td>
+                <td><input type="submit" value="登录"></td>
                 <td></td>
             </tr>
         </table>
