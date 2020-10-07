@@ -13,6 +13,7 @@ class AdminController extends Controller{
     }
     //注册添加
     function insert(Request $request){
+        //表单验证   写这里时候引入use Validator;      use Illuminate\Validation\Rule;
         $validator = Validator::make($request->all(),[
             'user_name' => 'required|unique:admin',
             'password' => 'required',
@@ -24,13 +25,14 @@ class AdminController extends Controller{
                 'email.required'=>'邮箱必填',
                 
         ]);
-
+        //表单验证
         if($validator->fails()){
             return redirect('/create')
             ->withErrors($validator)
             ->withInput();
         }
         $data=$request->except('_token');
+        //添加时间
         $data['reg_time']=time();
         $res=DB::table('admin')->insert($data);
         if($res){
@@ -69,19 +71,24 @@ class AdminController extends Controller{
     function logindo(Request $request){
         $user=$request->except('_token');
         // dump($user);
-        
+        //根据查询表中数据
         $username=DB::table('admin')->where('user_name',$user['user_name'])->first();
         // dd($username);
+        //验证账号是否与表中一制
         if(!$username){
             return redirect('/login')->with('msg','没有此用户');
         }
+        //判断密码是否正确
         if($username->password!=$user['password']){
             return redirect('/login')->with('msg','密码错误');
         }
+        //存入登录时间
         session('user',$username);
         $user['last_login']=time();
         // dd($user);
+        //修改表中登录时间
         DB::table('admin')->where('uid',$username->uid)->update($user);
+        //跳转到展示页面
         return redirect('index');
     }
 }
