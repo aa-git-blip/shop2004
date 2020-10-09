@@ -23,7 +23,7 @@ class AdminController extends Controller{
                 'user_name.unique'=>'用户已存在',
                 'password.required'=>'密码必填',
                 'email.required'=>'邮箱必填',
-                
+
         ]);
         //表单验证
         if($validator->fails()){
