@@ -60,7 +60,7 @@ class UserController extends Controller
     //登录方法
     function logindo(Request $request){
         $post=$request->except('_token');
-        //dd($data);
+        //dd($post);
         $add=$_SERVER['REMOTE_ADDR'];
         $reg='/^1[3|4|5|6|7|8|9]\d{9}$/';
         $reg_email='/^\w{3,}@([a-z]{2,7}|[0-9]{3})\.(com|cn)$/';

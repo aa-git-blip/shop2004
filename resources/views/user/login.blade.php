@@ -13,7 +13,7 @@
             <tr>
                 <td>用户名</td>
                 <td>
-                    <input type="text" name="user_name" id="">
+                    <input type="text" name="name" id="">
                 </td>
             </tr>
             <tr>
