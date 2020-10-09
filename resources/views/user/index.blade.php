@@ -1,21 +1,24 @@
-<table>
+<table border="1">
     <tr>
         <td>id</td>
-        <td>名字</td>
-        <td>年龄</td>
+        <td>姓名</td>
+        <td>电子邮箱</td>
+        <td>注册时间</td>
         <td>手机号</td>
+        <td>登录时间</td>
+        <td>登录ip</td>
         <td>操作</td>
     </tr>
-    @foreach($res as $v)
-    <tr>
-        <td>{{$v->user_id}}</td>
-        <td>{{$v->user_name}}</td>
-        <td>{{$v->user_age}}</td>
-        <td>{{$v->user_tel}}</td>
-        <td>
-            <a href="{{url('delete/'.$v->user_id)}}">删除</a>
-            <a href="{{url('edit/'.$v->user_id)}}">编辑</a>
-        </td>
-    </tr>
+    @foreach ($res as $v)
+        <tr>
+            <td>{{$v->id}}</td>
+            <td>{{$v->name}}</td>
+            <td>{{$v->email}}</td>
+            <td>{{date('Y-m-d H:i:s',$v->time)}}</td>
+            <td>{{$v->tel}}</td>
+            <td>{{date('Y-m-d H:i:s',$v->last_login)}}</td>
+            <td>{{$v->login_ip}}</td>
+            <td></td>
+        </tr>
     @endforeach
 </table>

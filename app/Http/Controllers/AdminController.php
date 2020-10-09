@@ -34,6 +34,7 @@ class AdminController extends Controller{
         $data=$request->except('_token');
         //添加时间
         $data['reg_time']=time();
+        $data['last_login']=$_SERVER['REMOTE_ADDR'];
         $res=DB::table('admin')->insert($data);
         if($res){
             return redirect('login');
