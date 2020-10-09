@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Console\Presets\React;
 use Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Redis;
 class UserController extends Controller
 {
     //添加视图

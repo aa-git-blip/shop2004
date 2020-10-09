@@ -7,7 +7,7 @@
 </head>
 <body>
     {{session('msg')}}
-    <form action="{{url('/logindo')}}" method="post">
+    <form action="{{url('user/logindo')}}" method="post">
     @csrf
         <table>
             <tr>
