@@ -25,7 +25,7 @@ class UserController extends Controller
                 'email.required'=>'邮箱必填',
                 'email.unique'=>'邮箱已存在',
                 'tel.required'=>'手机号必填',
-                'tel.unique'=>'手机号已存在',     
+                'tel.unique'=>'手机号已存在',
         ]);
         //表单验证
         if($validator->fails()){
@@ -56,7 +56,7 @@ class UserController extends Controller
     function login(){
         return view('user/login');
     }
-    //登录方法
+    //登录方法111111111111111111111111111111111111111111111111111
     function logindo(Request $request){
         $post=$request->except('_token');
         //dd($data);
