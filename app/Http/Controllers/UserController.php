@@ -82,7 +82,11 @@ class UserController extends Controller
             return redirect('/user/login')->with('msg','用户不存在');
         }
         if(!password_verify($post['password'], $user['password'])){
-            return redirect('/user/login')->with('msg','密码错误');
+            $keys="login:count".$post['name'];
+            $count=Redis::incr($keys);
+            // echo "密码错误次数：".$count;die;
+            return redirect('/user/login')->with('msg','密码错误,密码错误次数：',$count);
+
         }
         $data=[
             'last_login'=>time(),
