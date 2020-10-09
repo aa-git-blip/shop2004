@@ -56,7 +56,7 @@ class UserController extends Controller
     function login(){
         return view('user/login');
     }
-    //登录方法111111111111111111111111111111111111111111111111111
+    //登录方法
     function logindo(Request $request){
         $post=$request->except('_token');
         //dd($data);
