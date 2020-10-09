@@ -61,6 +61,7 @@ class UserController extends Controller
     function logindo(Request $request){
         $post=$request->except('_token');
         //dd($post);
+
         $add=$_SERVER['REMOTE_ADDR'];
         $reg='/^1[3|4|5|6|7|8|9]\d{9}$/';
         $reg_email='/^\w{3,}@([a-z]{2,7}|[0-9]{3})\.(com|cn)$/';
@@ -83,10 +84,15 @@ class UserController extends Controller
         }
         if(!password_verify($post['password'], $user['password'])){
             $keys="login:count".$post['name'];
+            //检测用户是否已被锁定
             $count=Redis::incr($keys);
-            // echo "密码错误次数：".$count;die;
-            return redirect('/user/login')->with('msg','密码错误,密码错误次数：',$count);
-
+            $count=Redis::get($keys);
+            //echo "密码错误次数：".$count;die;
+            if($count>=5){
+                return redirect('/user/login')->with('msg','密码输入错误次数太多，已被锁定');
+                exit;
+            }
+            return redirect('/user/login')->with('msg','密码错误,错误五次锁定用户');
         }
         $data=[
             'last_login'=>time(),
