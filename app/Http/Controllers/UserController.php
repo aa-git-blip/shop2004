@@ -82,17 +82,19 @@ class UserController extends Controller
         if(!$user){
             return redirect('/user/login')->with('msg','用户不存在');
         }
+        //Redis::setex("login:count".$post['name'],900,1);
+        //dd(Redis::TTL("login: ".$post['name']));
         if(!password_verify($post['password'], $user['password'])){
-            $keys="login:count".$post['name'];
-            //检测用户是否已被锁定
-            $count=Redis::incr($keys);
-            $count=Redis::get($keys);
-            //echo "密码错误次数：".$count;die;
-            if($count>=5){
-                return redirect('/user/login')->with('msg','密码输入错误次数太多，已被锁定');
-                exit;
-            }
-            return redirect('/user/login')->with('msg','密码错误,错误五次锁定用户');
+            // $keys="login:count".$post['name'];
+            // //检测用户是否已被锁定
+            // $count=Redis::incr($keys);
+            // $count=Redis::get($keys);
+            // //echo "密码错误次数：".$count;die;
+            // if($count>=5){
+            //     return redirect('/user/login')->with('msg','密码输入错误次数太多，已被锁定');
+            //     exit;
+            // }
+            return redirect('/user/login')->with('msg','密码错误');
         }
         $data=[
             'last_login'=>time(),
