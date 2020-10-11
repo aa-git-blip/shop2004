@@ -61,7 +61,6 @@ class UserController extends Controller
     function logindo(Request $request){
         $post=$request->except('_token');
         //dd($post);
-
         $add=$_SERVER['REMOTE_ADDR'];
         $reg='/^1[3|4|5|6|7|8|9]\d{9}$/';
         $reg_email='/^\w{3,}@([a-z]{2,7}|[0-9]{3})\.(com|cn)$/';
@@ -79,28 +78,38 @@ class UserController extends Controller
             ];
         }
         $user = UserModel::where($where)->first();
+        //判断
+        $count=Redis::get($user->id);
+        //$login_time = ceil(Redis::TTL("login_time:".$user->id) / 60);
+        $out_time=(ceil((Redis::TTL($user->id)/60)));
+            //判断错误次数
+            if($count>=5){
+                    return redirect('/user/login')->with('msg','密码错误次数过多,请'.$out_time.'分钟后在来');
+            }
         if(!$user){
             return redirect('/user/login')->with('msg','用户不存在');
         }
-        //Redis::setex("login:count".$post['name'],900,1);
-        //dd(Redis::TTL("login: ".$post['name']));
         if(!password_verify($post['password'], $user['password'])){
-            // $keys="login:count".$post['name'];
-            // //检测用户是否已被锁定
-            // $count=Redis::incr($keys);
-            // $count=Redis::get($keys);
-            // //echo "密码错误次数：".$count;die;
-            // if($count>=5){
-            //     return redirect('/user/login')->with('msg','密码输入错误次数太多，已被锁定');
-            //     exit;
-            // }
-            return redirect('/user/login')->with('msg','密码错误');
+            //用redis自增记录错误次数
+            Redis::incr($user->id);
+            $count=Redis::get($user->id);
+            //判断错误次数
+            if($count>=5){
+                Redis::SETEX($user->id,60*60,5);
+                    return redirect('/user/login')->with('msg','密码错误次数过多,请一个小时候在来');
+            }
+            return redirect('/user/login')->with('msg','密码错误'.$count.'次，五次后锁定一小时');
         }
         $data=[
             'last_login'=>time(),
             'login_ip'=>$add
         ];
         $res = UserModel::where('id',$user['id'])->update($data);
+        session(['login'=>$user]);
             return redirect('/user/index');
+    }
+    function loginout(){
+        session(['login'=>null]);
+        return redirect('/user/login');
     }
 }

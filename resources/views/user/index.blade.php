@@ -18,7 +18,10 @@
             <td>{{$v->tel}}</td>
             <td>{{date('Y-m-d H:i:s',$v->last_login)}}</td>
             <td>{{$v->login_ip}}</td>
-            <td></td>
+            <td>
+
+            </td>
         </tr>
     @endforeach
 </table>
+<a href="{{url('user/loginout')}}">退出</a>
