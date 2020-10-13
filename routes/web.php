@@ -26,10 +26,11 @@ Route::get('/login','AdminController@login');
 Route::post('/logindo','AdminController@logindo');
 //用户表
 Route::prefix('user')->middleware('UserLogin')->group(function(){
-    Route::get('/create','UserController@create');
-    Route::post('/register','UserController@register');
+
     Route::get('/index','UserController@index');
     Route::get('/loginout','UserController@loginout');
 });
+Route::get('/user/create','UserController@create');
+Route::post('/user/register','UserController@register');
 Route::get('/user/login','UserController@login');
 Route::post('/user/logindo','UserController@logindo');
