@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Http\Model\UserModel;
 use Illuminate\Http\Request;
+use App\Http\Middleware\User;
 use Illuminate\Foundation\Console\Presets\React;
 use Validator;
 use Illuminate\Validation\Rule;
